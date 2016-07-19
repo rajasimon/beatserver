@@ -6,7 +6,7 @@ setup(
     name="beatserver",
     version=__version__,
     url="https://github.com/rajasimon/beatserver",
-    description="Delay protocol server known as Beat Server",
+    description="Beat Server",
     license='MIT',
     packages=find_packages(),
     include_package_data=True,

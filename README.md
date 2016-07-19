@@ -1,3 +1,7 @@
 # Beat Server
 
-Delay process server
+Beat Server
+
+### How to run:
+
+    beatserver project.asgi:channel_layer
