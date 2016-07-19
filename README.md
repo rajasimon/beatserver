@@ -4,4 +4,4 @@ Beat Server
 
 ### How to run:
 
-    beatserver project.asgi:channel_layer
+    beatserver -b 127.0.0.1 -p 8000
