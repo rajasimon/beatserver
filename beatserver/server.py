@@ -11,10 +11,9 @@ class Server(object):
     Server is run on the twisted matrix reactor using autophan factory
     """
 
-    def __init__(self, port, host, channel_layer):
+    def __init__(self, port, host):
         self.port = port
         self.host = host
-        self.channel_layer = channel_layer
 
     def run(self):
         # factory object
