@@ -21,7 +21,7 @@ class Server(object):
         # factory = MyClientFactory()
         logger.info("started")
         factory = SocketClientFactory(
-            "ws://{}:{}/liveblog/test/stream/".format(
+            "ws://{}:{}/".format(
                 self.host, self.port))
         reactor.connectTCP(self.host, self.port, factory)
         reactor.run()
