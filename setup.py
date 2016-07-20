@@ -9,6 +9,7 @@ setup(
     description="Beat Server",
     license='MIT',
     packages=find_packages(),
+    install_requires=['twisted', 'autobahn'],
     include_package_data=True,
     entry_points={'console_scripts': [
         'beatserver = beatserver.cli:CommandLineInterface.entrypoint',
