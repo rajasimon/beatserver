@@ -8,8 +8,7 @@ def home(request):
     number = randint(1, 343333333)
     Channel('hae-repeat-me').send(
         {
-            'number': number,
-            'status': True,
+            'content': "Hello from {}".format(number),
             'delay': 10
         }
     )

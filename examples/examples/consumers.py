@@ -24,7 +24,6 @@ def hea_repeat_me(message):
         {
             "text": json.dumps(
                 {
-                    'status': message.content['status'],
                     'delay': message.content['delay'],
-                    'number': message.content['number']})
+                    'content': message.content['content']})
         })
