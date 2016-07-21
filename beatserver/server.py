@@ -16,8 +16,6 @@ class Server(object):
         self.host = host
 
     def run(self):
-        # factory object
-        # factory = MyClientFactory()
         logger.info("started")
         factory = SocketClientFactory(
             "ws://{}:{}/".format(
