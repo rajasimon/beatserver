@@ -1,6 +1,6 @@
 import json
 import logging
-from server import reactor
+from twisted.internet import reactor
 from twisted.internet.protocol import ReconnectingClientFactory
 from autobahn.twisted.websocket import WebSocketClientFactory, \
     WebSocketClientProtocol
