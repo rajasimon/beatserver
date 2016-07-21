@@ -1,6 +1,7 @@
 import unittest
 import argparse
 
+
 def create_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -23,7 +24,6 @@ def create_parser():
 class TestParser(unittest.TestCase):
     def setUp(self):
         self.parser = create_parser()
-
 
     def test_no_args(self):
         # test without arguments
