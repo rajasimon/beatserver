@@ -1,6 +1,6 @@
 import logging
 from twisted.internet import reactor
-from ws_protocol import SocketClientFactory
+from .ws_protocol import SocketClientFactory
 
 
 logger = logging.getLogger(__name__)
