@@ -1,6 +1,7 @@
 import sys
 import argparse
 import logging
+import importlib
 from server import Server
 
 logger = logging.getLogger(__name__)
@@ -43,13 +44,24 @@ class CommandLineInterface(object):
         cls().start(sys.argv[1:])
 
     def start(self, args):
-        # decode args
-        args = self.parser.parse_args(args)
         # logging configuration
         logging.basicConfig()
         logging.getLogger().setLevel(logging.INFO)
+        # decode args
+        args = self.parser.parse_args(args)
 
+        # Import channel layer
+        sys.path.insert(0, ".")
+        module_path, object_path = args.channel_layer.split(":", 1)
+        channel_layer = importlib.import_module(module_path)
+
+        # logging
+        logger.info(
+            "Starting beat server at {}, channel layer {}".format(
+                args.host, args.channel_layer)
+        )
         # call the Server with args and run method
-        # Server(
-        #     port=args.port,
-        #     host=args.host).run()
+        Server(
+            channel_layer=channel_layer,
+            port=args.port,
+            host=args.host)#.run()
