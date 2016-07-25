@@ -1,6 +1,7 @@
 import unittest
 import argparse
 
+
 def create_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -19,7 +20,6 @@ def create_parser():
     )
     parser.add_argument(
         'channel_layer',
-        default="channel_layer",
         help='The ASGI channel layer instance to use as path.to.module:instance.path')
     return parser
 
@@ -30,19 +30,10 @@ class TestParser(unittest.TestCase):
 
     def test_no_args(self):
         # test without arguments
-        parsed = self.parser.parse_args()
+        parsed = self.parser.parse_args(['project.asgi:channel_layer'])
         self.assertEqual(parsed.host, '127.0.0.1')
         self.assertEqual(parsed.port, 8000)
-        # self.assertEqual(parsed.channel_layer, "channel_layer")
-
-    def test_with_args(self):
-        # test with argument
-        parsed = self.parser.parse_args(
-            ['--bind', '127.0.0.1'])
-        self.assertEqual(parsed.host, '127.0.0.1')
-        parsed = self.parser.parse_args(
-            ['--port', '8000'])
-        self.assertEqual(parsed.port, 8000)
+        self.assertEqual(parsed.channel_layer, "project.asgi:channel_layer")
 
 
 if __name__ == '__main__':

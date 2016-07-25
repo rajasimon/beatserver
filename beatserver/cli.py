@@ -30,6 +30,9 @@ class CommandLineInterface(object):
             help='The host/address to bind to',
             default="127.0.0.1",
         )
+        self.parser.add_argument(
+            'channel_layer',
+            help='ASGI channel layer')
 
     @classmethod
     def entrypoint(cls):
@@ -47,6 +50,6 @@ class CommandLineInterface(object):
         logging.getLogger().setLevel(logging.INFO)
 
         # call the Server with args and run method
-        Server(
-            port=args.port,
-            host=args.host).run()
+        # Server(
+        #     port=args.port,
+        #     host=args.host).run()
