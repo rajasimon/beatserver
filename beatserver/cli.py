@@ -1,8 +1,8 @@
 import sys
 import argparse
 import logging
-import importlib
-from server import Server
+from .server import Server
+from .parser import cli_parser
 
 logger = logging.getLogger(__name__)
 
@@ -52,8 +52,7 @@ class CommandLineInterface(object):
 
         # Import channel layer
         sys.path.insert(0, ".")
-        module_path, object_path = args.channel_layer.split(":", 1)
-        channel_layer = importlib.import_module(module_path)
+        channel_layer, project_name = cli_parser(args)
 
         # logging
         logger.info(
@@ -62,6 +61,7 @@ class CommandLineInterface(object):
         )
         # call the Server with args and run method
         Server(
-            channel_layer=channel_layer,
             port=args.port,
-            host=args.host)#.run()
+            host=args.host,
+            project_name=project_name,
+            channel_layer=channel_layer).run()
