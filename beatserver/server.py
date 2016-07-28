@@ -1,7 +1,7 @@
 import logging
 from .parser import Parser
 from twisted.internet import reactor, task
-from channels import Channel, Group
+from channels import Channel
 
 logger = logging.getLogger(__name__)
 
@@ -19,8 +19,6 @@ class Server(object):
 
     def run_task(self, channel_name, message):
         Channel(channel_name).send(message)
-
-
 
     def run(self):
         beat_config = Parser(self.project_name).get_tasks()

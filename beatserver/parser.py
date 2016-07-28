@@ -21,4 +21,3 @@ class Parser(object):
 
     def get_tasks(self):
         return self.get_module().BEAT_SCHEDULE
-

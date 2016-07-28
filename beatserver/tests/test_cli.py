@@ -20,7 +20,7 @@ def create_parser():
     )
     parser.add_argument(
         'channel_layer',
-        help='The ASGI channel layer instance to use as path.to.module:instance.path')
+        help='ASGI channel layer')
     return parser
 
 

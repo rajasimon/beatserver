@@ -12,7 +12,7 @@ Beat Server is a scheduler, Periodic Tasks for Django channels | beta software
         'add-every-10-seconds': {
             'channel_name': 'testing',
             'schedule': timedelta(seconds=30),
-            'message': {'status': True, 'test': True}
+            'message': {'foo': 'bar'}
         },
     }
 
