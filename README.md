@@ -1,5 +1,8 @@
 # Beat Server
 
+[![Build Status](https://travis-ci.org/rajasimon/beatserver.svg?branch=master)](https://travis-ci.org/rajasimon/beatserver)
+[![PyPI version](https://badge.fury.io/py/beatserver.svg)](https://badge.fury.io/py/beatserver)
+
 Beat Server is a scheduler, Periodic Tasks for Django channels | beta software
 
 
@@ -11,7 +14,7 @@ Beat Server is a scheduler, Periodic Tasks for Django channels | beta software
     BEAT_SCHEDULE = {
         'add-every-10-seconds': {
             'channel_name': 'testing',
-            'schedule': timedelta(seconds=30),
+            'schedule': timedelta(seconds=10),
             'message': {'foo': 'bar'}
         },
     }
