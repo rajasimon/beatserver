@@ -1,5 +1,5 @@
 import importlib
-from channels import channel_layer
+from channels import channel_layers
 
 
 def cli_parser(args):
@@ -17,7 +17,7 @@ class Parser(object):
         self.project_name = project_name
 
     def check_in_memory(self):
-        backend = channel_layer.config['defaut']['BACKEND']
+        backend = channel_layers.config['defaut']['BACKEND']
         if backend == "asgiref.inmemory.ChannelLayer":
             raise Exception(
                 " beatserver will not support inmemory Channel layer")

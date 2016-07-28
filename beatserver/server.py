@@ -28,4 +28,5 @@ class Server(object):
             schedule = beat_config[beat]['schedule']
             x = task.LoopingCall(self.run_task, channel_name, message)
             x.start(schedule.total_seconds())
+        logger.info("beatserver started")
         reactor.run()
