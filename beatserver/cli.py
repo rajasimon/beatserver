@@ -5,6 +5,7 @@ from .server import Server
 from .parser import cli_parser
 
 logger = logging.getLogger(__name__)
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
 
 class CommandLineInterface(object):
@@ -41,12 +42,12 @@ class CommandLineInterface(object):
         Main entry porint for starting the Beat Server
         sys argv is list contains path and args
         """
-        cls().start(sys.argv[1:])
+        try:
+            cls().start(sys.argv[1:])
+        except Exception as e:
+            logger.warning(e)
 
     def start(self, args):
-        # logging configuration
-        logging.basicConfig()
-        logging.getLogger().setLevel(logging.INFO)
         # decode args
         args = self.parser.parse_args(args)
 
@@ -54,11 +55,6 @@ class CommandLineInterface(object):
         sys.path.insert(0, ".")
         channel_layer, project_name = cli_parser(args)
 
-        # logging
-        logger.info(
-            "Starting beat server at {}, channel layer {}".format(
-                args.host, args.channel_layer)
-        )
         # call the Server with args and run method
         Server(
             port=args.port,
