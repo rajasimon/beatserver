@@ -1,5 +1,8 @@
 # Beat Server
 
+.. image:: https://travis-ci.org/rajasimon/beatserver.svg?branch=master
+    :target: https://travis-ci.org/rajasimon/beatserver
+
 Beat Server is a scheduler, Periodic Tasks for Django channels | beta software
 
 
