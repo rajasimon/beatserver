@@ -1,6 +1,7 @@
 # Beat Server
 
 [![Build Status](https://travis-ci.org/rajasimon/beatserver.svg?branch=master)](https://travis-ci.org/rajasimon/beatserver)
+[![PyPI version](https://badge.fury.io/py/beatserver.svg)](https://badge.fury.io/py/beatserver)
 
 Beat Server is a scheduler, Periodic Tasks for Django channels | beta software
 
