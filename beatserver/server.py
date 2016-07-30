@@ -7,7 +7,8 @@ logger = logging.getLogger(__name__)
 
 class Server(object):
     """
-    Server takes the port and host
+    Server takes channel_layer and beat_config as argument, those are come from
+    parser. And run function schedule the task.
     """
 
     def __init__(self, channel_layer, beat_config):

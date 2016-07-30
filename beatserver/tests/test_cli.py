@@ -15,7 +15,6 @@ class TestCli(unittest.TestCase):
         self.parser = create_parser()
 
     def test_no_args(self):
-        # test without arguments
         parsed = self.parser.parse_args(['examples.asgi:channel_layer'])
         self.assertEqual(parsed.channel_layer, "examples.asgi:channel_layer")
 
