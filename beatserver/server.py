@@ -1,32 +1,31 @@
 import logging
-from .parser import Parser
-from twisted.internet import reactor, task
 from channels import Channel
+from twisted.internet import reactor, task
 
 logger = logging.getLogger(__name__)
 
 
 class Server(object):
     """
-    Server will run the twisted reacor now and never pass
+    Server takes the port and host
     """
 
-    def __init__(self, port, host, channel_layer, project_name):
-        self.port = port
-        self.host = host
+    def __init__(self, channel_layer, beat_config):
         self.channel_layer = channel_layer
-        self.project_name = project_name
+        self.beat_config = beat_config
 
     def run_task(self, channel_name, message):
         Channel(channel_name).send(message)
 
     def run(self):
-        beat_config = Parser(self.project_name).get_tasks()
-        for beat in beat_config:
-            message = beat_config[beat]['message']
-            channel_name = beat_config[beat]['channel_name']
-            schedule = beat_config[beat]['schedule']
-            x = task.LoopingCall(self.run_task, channel_name, message)
-            x.start(schedule.total_seconds())
+        """
+        extract all schedules from beat_config files and feed into twisted task.
+        """
+        for beat in self.beat_config:
+            message = self.beat_config[beat]['message']
+            channel_name = self.beat_config[beat]['channel_name']
+            schedule = self.beat_config[beat]['schedule']
+            sche = task.LoopingCall(self.run_task, channel_name, message)
+            sche.start(schedule.total_seconds())
         logger.info("beatserver started")
         reactor.run()
