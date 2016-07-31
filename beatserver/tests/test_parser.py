@@ -7,8 +7,7 @@ from datetime import timedelta
 class TestParser(unittest.TestCase):
 
     def setUp(self):
-        sys.path.insert(0, '.')
-        self.get_module = importlib.import_module('test_beatconfig')
+        self.get_module = importlib.import_module('beatserver.tests.test_beatconfig')
 
     beat = {
         'channel_name': 'testing',
