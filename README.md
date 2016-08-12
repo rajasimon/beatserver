@@ -5,8 +5,11 @@
 
 Beatserver, a periodic task scheduler for django channels | beta software
 
+### How to install
 
-### Configurations
+    pip install beatserver
+
+### Configurations:
 
     # beatconfig.py
     from datetime import timedelta
