@@ -3,3 +3,5 @@
 *.sqlite3
 build/
 dist/
+/.venv3
+*__pycache__/
