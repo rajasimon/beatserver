@@ -1,0 +1,4 @@
+Django
+Channels
+asgi-redis
+beatserver
