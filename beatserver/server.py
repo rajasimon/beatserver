@@ -17,10 +17,12 @@ class Server(object):
 
     def run_task(self, channel_name, message):
         Channel(channel_name).send(message)
+        logger.info("Channel name {} with {} message delivered".format(
+            channel_name, message))
 
     def run(self):
         """
-        extract all schedules from beat_config files and feed into twisted task.
+        Extract all schedules from beat_config files and feed into twisted task.
         """
         for beat in self.beat_config:
             message = self.beat_config[beat]['message']
