@@ -4,7 +4,7 @@ from channels import channel_layers
 
 class Parser(object):
     """
-    Takes module_path as arguments path.module and also it has the function to 
+    Takes module_path as arguments path.module and also it has the function to
     check the in-memory layer.
     """
 
