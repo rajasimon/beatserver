@@ -46,7 +46,7 @@ class CommandLineInterface(object):
         # get channel_layer, beatconfig from parser object
         channel_layer = Parser(module_path).get_channel_layer()
         beat_config = Parser(
-            module_path.split('.')[0] + ".beatconfig").get_beat_config() 
+            module_path.split('.')[0] + ".beatconfig").get_beat_config()
 
         Parser(module_path).check_in_memory()
         # call the Server with args and run method
