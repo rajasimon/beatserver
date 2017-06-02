@@ -22,13 +22,13 @@ class Server(object):
 
     def run(self):
         """
-        Extract all schedules from beat_config files and feed into twisted task.
+        Extract all schedules from beat_config file and feed into twisted task.
         """
+        logger.info("beatserver started")
         for beat in self.beat_config:
             message = self.beat_config[beat]['message']
             channel_name = self.beat_config[beat]['channel_name']
             schedule = self.beat_config[beat]['schedule']
             sche = task.LoopingCall(self.run_task, channel_name, message)
             sche.start(schedule.total_seconds())
-        logger.info("beatserver started")
         reactor.run()
