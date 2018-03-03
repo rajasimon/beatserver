@@ -1,5 +1,10 @@
 import logging
-from channels import Channel
+try:
+    from channels import Channel
+    CHANNELS_2 = False
+except:
+    from asgiref.sync import async_to_sync
+    CHANNELS_2 = True
 from twisted.internet import reactor, task
 
 logger = logging.getLogger(__name__)
@@ -16,7 +21,10 @@ class Server(object):
         self.beat_config = beat_config
 
     def run_task(self, channel_name, message):
-        Channel(channel_name).send(message)
+        if CHANNELS_2:
+            async_to_sync(self.channel_layer.send)(channel_name, message)
+        else:
+            Channel(channel_name).send(message)
         logger.info("Channel name {} with {} message delivered".format(
             channel_name, message))
 
@@ -31,4 +39,5 @@ class Server(object):
             schedule = self.beat_config[beat]['schedule']
             sche = task.LoopingCall(self.run_task, channel_name, message)
             sche.start(schedule.total_seconds())
+        
         reactor.run()
