@@ -1,6 +1,4 @@
 import importlib
-from channels import channel_layers
-
 
 class Parser(object):
     """
@@ -12,8 +10,8 @@ class Parser(object):
         self.module_path = module_path
 
     def check_in_memory(self):
-        backend = channel_layers.configs['default']['BACKEND']
-        if backend == "asgiref.inmemory.ChannelLayer":
+        backend = type(self.get_channel_layer()).__name__
+        if backend == "InMemoryChannelLayer":
             raise Exception(
                 " beatserver will not support inmemory Channel layer")
 
@@ -21,7 +19,7 @@ class Parser(object):
         return importlib.import_module(self.module_path)
 
     def get_channel_layer(self):
-        return self.get_module()
+        return self.get_module().channel_layers
 
     def get_beat_config(self):
         return self.get_module().BEAT_SCHEDULE

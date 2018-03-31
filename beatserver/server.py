@@ -1,5 +1,5 @@
 import logging
-from channels import Channel
+from asgiref.sync import async_to_sync
 from twisted.internet import reactor, task
 
 logger = logging.getLogger(__name__)
@@ -16,7 +16,7 @@ class Server(object):
         self.beat_config = beat_config
 
     def run_task(self, channel_name, message):
-        Channel(channel_name).send(message)
+        async_to_sync(self.channel_layer.send)(channel_name, message)
         logger.info("Channel name {} with {} message delivered".format(
             channel_name, message))
 
@@ -31,4 +31,5 @@ class Server(object):
             schedule = self.beat_config[beat]['schedule']
             sche = task.LoopingCall(self.run_task, channel_name, message)
             sche.start(schedule.total_seconds())
+        
         reactor.run()
