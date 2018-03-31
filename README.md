@@ -12,8 +12,13 @@ Beatserver, a periodic task scheduler for django channels | beta software
 ### Configurations:
 
     # beatconfig.py
+    import os
     from datetime import timedelta
-
+    from channels.layers import get_channel_layer
+    
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "alamo_projects.settings")
+    channel_layers = get_channel_layer()
+    
     BEAT_SCHEDULE = {
         'add-every-10-seconds': {
             'channel_name': 'testing',
@@ -24,4 +29,4 @@ Beatserver, a periodic task scheduler for django channels | beta software
 
 ### How to run:
 
-    beatserver django_project.asgi:channel_layer
+    beatserver django_project.beatconfig:application
