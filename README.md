@@ -16,7 +16,7 @@ Beatserver, a periodic task scheduler for django channels | beta software
     from datetime import timedelta
     from channels.layers import get_channel_layer
     
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "alamo_projects.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_project.settings")
     channel_layers = get_channel_layer()
     
     BEAT_SCHEDULE = {
