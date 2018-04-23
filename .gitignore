@@ -6,3 +6,4 @@ dist/
 /.venv
 /.venv3
 *__pycache__/
+Pipfile.lock
