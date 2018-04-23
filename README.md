@@ -11,6 +11,8 @@ Beatserver, a periodic task scheduler for django channels | beta software
 
 ### Configurations:
 
+    Add `beatserver` to installed apps
+
     # beatconfig.py
     from datetime import timedelta
 
@@ -24,4 +26,4 @@ Beatserver, a periodic task scheduler for django channels | beta software
 
 ### How to run:
 
-    beatserver django_project.asgi:channel_layer
+    python manage.py beatserver

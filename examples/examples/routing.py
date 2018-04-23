@@ -1,7 +1,9 @@
-# In routing.py
-from channels.routing import route
-from .consumers import testing
+from channels.routing import ProtocolTypeRouter, ChannelNameRouter
 
-channel_routing = [
-    route("testing", testing),
-]
+from . import consumers
+
+application = ProtocolTypeRouter({
+    "channel": ChannelNameRouter({
+        "testing-print": consumers.PrintConsumer
+    })
+})

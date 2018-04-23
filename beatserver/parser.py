@@ -1,5 +1,5 @@
 import importlib
-from channels import channel_layers
+from channels.layers import channel_layers
 
 
 class Parser(object):

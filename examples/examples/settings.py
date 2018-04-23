@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'channels'
+    'channels',
+    'beatserver'
 ]
 
 MIDDLEWARE = [
@@ -123,10 +124,11 @@ STATIC_URL = '/static/'
 # In settings.py
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
             "hosts": [("localhost", 6379)],
         },
-        "ROUTING": "examples.routing.channel_routing",
     },
 }
+
+ASGI_APPLICATION = "examples.routing.application"

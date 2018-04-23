@@ -1,3 +1,7 @@
-# Connected to websocket.connect
-def testing(message):
-    print(message.content)
+from channels.generic.websocket import SyncConsumer
+
+
+class PrintConsumer(SyncConsumer):
+
+    def test_print(self, message):
+        print(message)
