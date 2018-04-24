@@ -22,11 +22,6 @@ class Command(BaseCommand):
             "--layer", action="store", dest="layer", default=DEFAULT_CHANNEL_LAYER,
             help="Channel layer alias to use, if not the default.",
         )
-        parser.add_argument(
-            "channels",
-            nargs="+",
-            help="Channels to listen on."
-        )
 
     def handle(self, *args, **options):
         # Get the backend to use
@@ -46,10 +41,9 @@ class Command(BaseCommand):
 
         # Run the worker
         self.logger = setup_logger("django.channels", self.verbosity)
-        self.logger.info("Running worker for channels %s", options["channels"])
+        self.logger.info("Starting beatserver...")
         server = self.server_class(
             application=get_default_application(),
-            channels=options["channels"],
             channel_layer=self.channel_layer,
             beat_config=beat_config
         )
