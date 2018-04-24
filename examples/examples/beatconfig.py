@@ -2,9 +2,9 @@
 from datetime import timedelta
 
 BEAT_SCHEDULE = {
-    'add-every-10-seconds': {
-        'channel_name': 'testing',
-        'schedule': timedelta(seconds=10),
-        'message': {'foo': 'bar'}
+    'testing-print': {
+        'type': 'test.print',
+        'message': {'testing': 'one'},
+        'schedule': timedelta(seconds=5)
     },
 }
