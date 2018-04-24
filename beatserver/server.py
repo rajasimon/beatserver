@@ -5,9 +5,8 @@ from asgiref.server import StatelessServer
 
 class BeatServer(StatelessServer):
 
-    def __init__(self, application, channels, channel_layer, beat_config, max_applications=1000):
+    def __init__(self, application, channel_layer, beat_config, max_applications=1000):
         super().__init__(application, max_applications)
-        self.channels = channels
         self.channel_layer = channel_layer
         if self.channel_layer is None:
             raise ValueError("Channel layer is not valid")
@@ -20,14 +19,37 @@ class BeatServer(StatelessServer):
         """
         # For each channel, launch its own listening coroutine
         listeners = []
-        for channel in self.channels:
+        for key, value in self.beat_config.items():
             listeners.append(asyncio.ensure_future(
-                self.listener(channel)
+                self.listener(key)
+            ))
+
+
+        # For each beat configuration, launch it's own sending pattern
+        emitters = []
+        for key, value in self.beat_config.items():
+            emitters.append(asyncio.ensure_future(
+                self.emitters(key, value)
             ))
 
         # Wait for them all to exit
+        await asyncio.wait(emitters)
         await asyncio.wait(listeners)
 
+
+    async def emitters(self, key, value):
+        """
+        Single-channel emitter
+        """
+        while True:
+            await asyncio.sleep(value['schedule'].total_seconds())
+
+            await self.channel_layer.send(key, {
+                "type": value['type'],
+                "message": value['message']
+            })
+        
+        
 
     async def listener(self, channel):
         """
