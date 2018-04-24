@@ -17,10 +17,10 @@ Beatserver, a periodic task scheduler for django channels | beta software
     from datetime import timedelta
 
     BEAT_SCHEDULE = {
-        'add-every-10-seconds': {
-            'channel_name': 'testing',
-            'schedule': timedelta(seconds=10),
-            'message': {'foo': 'bar'}
+        'testing-print': {
+            'type': 'test.print',
+            'message': {'foo': 'bar'},
+            'schedule': timedelta(seconds=5)
         },
     }
 
