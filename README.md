@@ -1,3 +1,5 @@
+<p align="center"><img src="logo/horizontalversions.png" alt="beatserver" height="150px"></p>
+
 # Beat Server
 
 [![Build Status](https://travis-ci.org/rajasimon/beatserver.svg?branch=master)](https://travis-ci.org/rajasimon/beatserver)
