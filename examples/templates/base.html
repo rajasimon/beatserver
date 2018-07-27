@@ -1,0 +1,19 @@
+<!-- chat/templates/chat/room.html -->
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Example</title>
+</head>
+<body>
+  <script src="{% static "channels/js/websocketbridge.js" %}"></script>
+  <script>
+    const webSocketBridge = new channels.WebSocketBridge();
+    webSocketBridge.connect('/stream/');
+    webSocketBridge.listen(function(action, stream) {
+      console.log(action, stream);
+    });
+  </script>
+</body>
+</html>

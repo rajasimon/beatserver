@@ -5,4 +5,5 @@ Just create a file called beatconfig and add a dict of BEAT_SCHEDULE. You can cr
 
     python manage.py runserver
 
-    beatserver examples.asgi:channel_layer
+    python manage.py beatserver
+
