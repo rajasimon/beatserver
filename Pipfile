@@ -9,6 +9,7 @@ channels = "*"
 channels-redis = "*"
 
 [dev-packages]
+twine = "*"
 
 [requires]
 python_version = "3.6"
