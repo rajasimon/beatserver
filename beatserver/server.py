@@ -44,7 +44,7 @@ class BeatServer(StatelessServer):
         while True:
             schedule = value['schedule']
             if isinstance(schedule, timedelta):
-                sleep_seconds = value['schedule'].total_seconds()
+                sleep_seconds = schedule.total_seconds()
             else:
                 sleep_seconds = croniter(schedule).next() - time.time()
             await asyncio.sleep(sleep_seconds)
