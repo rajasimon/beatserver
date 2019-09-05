@@ -1,6 +1,9 @@
 import asyncio
+from datetime import timedelta
+import time
 
 from asgiref.server import StatelessServer
+from croniter import croniter
 
 
 class BeatServer(StatelessServer):
@@ -11,7 +14,6 @@ class BeatServer(StatelessServer):
         if self.channel_layer is None:
             raise ValueError("Channel layer is not valid")
         self.beat_config = beat_config
-
 
     async def handle(self):
         """
@@ -24,7 +26,6 @@ class BeatServer(StatelessServer):
                 self.listener(key)
             ))
 
-
         # For each beat configuration, launch it's own sending pattern
         emitters = []
         for key, value in self.beat_config.items():
@@ -36,20 +37,22 @@ class BeatServer(StatelessServer):
         await asyncio.wait(emitters)
         await asyncio.wait(listeners)
 
-
     async def emitters(self, key, value):
         """
         Single-channel emitter
         """
         while True:
-            await asyncio.sleep(value['schedule'].total_seconds())
+            schedule = value['schedule']
+            if isinstance(schedule, timedelta):
+                sleep_seconds = value['schedule'].total_seconds()
+            else:
+                sleep_seconds = croniter(schedule).next() - time.time()
+            await asyncio.sleep(sleep_seconds)
 
             await self.channel_layer.send(key, {
                 "type": value['type'],
                 "message": value['message']
             })
-        
-        
 
     async def listener(self, channel):
         """
