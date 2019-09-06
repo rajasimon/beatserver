@@ -30,9 +30,10 @@ class BeatServer(StatelessServer):
         emitters = []
         for key, value in self.beat_config.items():
             if isinstance(value, (list, tuple)):
-                emitters.extend(asyncio.ensure_future(
-                    self.emitters(key, v) for v in value
-                ))
+                for v in value:
+                    emitters.append(asyncio.ensure_future(
+                        self.emitters(key, v)
+                    ))
             else:
                 emitters.append(asyncio.ensure_future(
                     self.emitters(key, value)
