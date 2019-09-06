@@ -21,7 +21,7 @@ class BeatServer(StatelessServer):
         """
         # For each channel, launch its own listening coroutine
         listeners = []
-        for key, value in self.beat_config.items():
+        for key in self.beat_config.keys():
             listeners.append(asyncio.ensure_future(
                 self.listener(key)
             ))
@@ -29,9 +29,14 @@ class BeatServer(StatelessServer):
         # For each beat configuration, launch it's own sending pattern
         emitters = []
         for key, value in self.beat_config.items():
-            emitters.append(asyncio.ensure_future(
-                self.emitters(key, value)
-            ))
+            if isinstance(value, (list, tuple)):
+                emitters.extend(asyncio.ensure_future(
+                    self.emitters(key, v) for v in value
+                ))
+            else:
+                emitters.append(asyncio.ensure_future(
+                    self.emitters(key, value)
+                ))
 
         # Wait for them all to exit
         await asyncio.wait(emitters)
