@@ -19,12 +19,22 @@ Beatserver, a periodic task scheduler for django channels | beta software
     from datetime import timedelta
 
     BEAT_SCHEDULE = {
-        'testing-print': {
-            'type': 'test.print',
-            'message': {'foo': 'bar'},
-            'schedule': timedelta(seconds=5)
-        },
+        'testing-print': [
+            {
+                'type': 'test.print',
+                'message': {'testing': 'one'},
+                'schedule': timedelta(seconds=5)  # Every 5 seconds
+            },
+            {
+                'type': 'test.print',
+                'message': {'testing': 'two'},
+                'schedule': '0 3 * * 1'  # Precisely at 3AM on Monday
+            },
+        ]
     }
+
+    Schedules can be specified as timedeltas for running tasks on specified intervals,
+    or as cron-syntax strings for running tasks on exact schedules.
 
 ### How to run:
 
