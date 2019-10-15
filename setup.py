@@ -11,7 +11,7 @@ setup(
     description="Beat Server is is a scheduler",
     license='MIT',
     packages=find_packages(),
-    install_requires=['channels>=1.1.8.1'],
+    install_requires=['channels>=1.1.8.1', 'croniter>=0.3.30'],
     include_package_data=True
 
 )

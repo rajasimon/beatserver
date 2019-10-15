@@ -1,6 +1,9 @@
 import asyncio
+from datetime import timedelta
+import time
 
 from asgiref.server import StatelessServer
+from croniter import croniter
 
 
 class BeatServer(StatelessServer):
@@ -12,44 +15,50 @@ class BeatServer(StatelessServer):
             raise ValueError("Channel layer is not valid")
         self.beat_config = beat_config
 
-
     async def handle(self):
         """
         Listens on all the provided channels and handles the messages.
         """
         # For each channel, launch its own listening coroutine
         listeners = []
-        for key, value in self.beat_config.items():
+        for key in self.beat_config.keys():
             listeners.append(asyncio.ensure_future(
                 self.listener(key)
             ))
 
-
         # For each beat configuration, launch it's own sending pattern
         emitters = []
         for key, value in self.beat_config.items():
-            emitters.append(asyncio.ensure_future(
-                self.emitters(key, value)
-            ))
+            if isinstance(value, (list, tuple)):
+                for v in value:
+                    emitters.append(asyncio.ensure_future(
+                        self.emitters(key, v)
+                    ))
+            else:
+                emitters.append(asyncio.ensure_future(
+                    self.emitters(key, value)
+                ))
 
         # Wait for them all to exit
         await asyncio.wait(emitters)
         await asyncio.wait(listeners)
-
 
     async def emitters(self, key, value):
         """
         Single-channel emitter
         """
         while True:
-            await asyncio.sleep(value['schedule'].total_seconds())
+            schedule = value['schedule']
+            if isinstance(schedule, timedelta):
+                sleep_seconds = schedule.total_seconds()
+            else:
+                sleep_seconds = croniter(schedule).next() - time.time()
+            await asyncio.sleep(sleep_seconds)
 
             await self.channel_layer.send(key, {
                 "type": value['type'],
                 "message": value['message']
             })
-        
-        
 
     async def listener(self, channel):
         """
