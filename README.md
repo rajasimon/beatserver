@@ -14,64 +14,74 @@ Beatserver, a periodic task scheduler for django channels | beta software
 Follow django channels documentation on howto install channels.
 
 #### Install beatserver:
-    
-    pip install -U beatserver
-    
+
+```shell
+pip install -U beatserver
+```
 
 ### Configurations:
 
-Add `beatserver` to installed apps:
-    
-    INSTALLED_APPS = [
-        'beatserver',
-        'channels',
-        '...'
+Add `beatserver` to `INSTALLED_APPS` in **settings.py**:
+
+```python
+INSTALLED_APPS = [
+    'beatserver',
+    'channels',
+    '...'
+]
+```
+
+
+**beatconfig.py**
+
+```python
+from datetime import timedelta
+
+BEAT_SCHEDULE = {
+    'testing-print': [
+        {
+            # will call test_print method of PrintConsumer
+            'type': 'test.print',
+            # message to pass to the consumer
+            'message': {'testing': 'one'},
+            # Every 5 seconds
+            'schedule': timedelta(seconds=5)
+        },
+        {
+            'type': 'test.print',
+            'message': {'testing': 'two'},
+            # Precisely at 3AM on Monday
+            'schedule': '0 3 * * 1' 
+        },
     ]
+}
+```
+
+Schedules can be specified as timedeltas for running tasks on specified intervals, or as cron-syntax strings for running tasks on exact schedules.
 
 
-beatconfig.py
+**routing.py**
 
-    from datetime import timedelta
+```python
+application = ProtocolTypeRouter({
+    "channel": ChannelNameRouter({
+        "testing-print": PrintConsumer,
+    }),
+})
+```
 
-    BEAT_SCHEDULE = {
-        'testing-print': [
-            {
-                # will call test_print method of PrintConsumer
-                'type': 'test.print',
-                # message to pass to the consumer
-                'message': {'testing': 'one'},
-                # Every 5 seconds
-                'schedule': timedelta(seconds=5)
-            },
-            {
-                'type': 'test.print',
-                'message': {'testing': 'two'},
-                # Precisely at 3AM on Monday
-                'schedule': '0 3 * * 1' 
-            },
-        ]
-    }
+**consumers.py**
 
-    Schedules can be specified as timedeltas for running tasks on specified intervals,
-    or as cron-syntax strings for running tasks on exact schedules.
+```python
+from channels.consumer import SyncConsumer
 
+class PrintConsumer(SyncConsumer):
+    def test_print(self, message):
+        print(message)
+```
 
-routing.py
-
-    application = ProtocolTypeRouter({
-        "channel": ChannelNameRouter({
-            "testing-print": PrintConsumer,
-        }),
-    })
-
-consumers.py
-
-    from channels.consumer import SyncConsumer
-    
-    class PrintConsumer(SyncConsumer):
-        def test_print(self, message):
-            print(message)
-        
 ### How to run:
 
-    python manage.py beatserver
+```shell
+python manage.py beatserver
+```
