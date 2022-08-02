@@ -7,7 +7,6 @@ from croniter import croniter
 
 
 class BeatServer(StatelessServer):
-
     def __init__(self, application, channel_layer, beat_config, max_applications=1000):
         super().__init__(application, max_applications)
         self.channel_layer = channel_layer
@@ -22,22 +21,16 @@ class BeatServer(StatelessServer):
         # For each channel, launch its own listening coroutine
         listeners = []
         for key in self.beat_config.keys():
-            listeners.append(asyncio.ensure_future(
-                self.listener(key)
-            ))
+            listeners.append(asyncio.ensure_future(self.listener(key)))
 
         # For each beat configuration, launch it's own sending pattern
         emitters = []
         for key, value in self.beat_config.items():
             if isinstance(value, (list, tuple)):
                 for v in value:
-                    emitters.append(asyncio.ensure_future(
-                        self.emitters(key, v)
-                    ))
+                    emitters.append(asyncio.ensure_future(self.emitters(key, v)))
             else:
-                emitters.append(asyncio.ensure_future(
-                    self.emitters(key, value)
-                ))
+                emitters.append(asyncio.ensure_future(self.emitters(key, value)))
 
         # Wait for them all to exit
         await asyncio.wait(emitters)
@@ -48,17 +41,17 @@ class BeatServer(StatelessServer):
         Single-channel emitter
         """
         while True:
-            schedule = value['schedule']
+            schedule = value["schedule"]
             if isinstance(schedule, timedelta):
                 sleep_seconds = schedule.total_seconds()
             else:
                 sleep_seconds = croniter(schedule).next() - time.time()
-            await asyncio.sleep(sleep_seconds)
 
-            await self.channel_layer.send(key, {
-                "type": value['type'],
-                "message": value['message']
-            })
+            await self.channel_layer.send(
+                key, {"type": value["type"], "message": value["message"]}
+            )
+
+            await asyncio.sleep(sleep_seconds)
 
     async def listener(self, channel):
         """
