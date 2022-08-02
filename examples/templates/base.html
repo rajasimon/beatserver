@@ -1,6 +1,6 @@
-<body>
-  <script>
-    var socket = new WebSocket('ws://' + window.location.host +'/stream/');
-    socket.onmessage = function(e) {console.log(e)};
-  </script>
-</body>
+<script>
+  var socket = new WebSocket('ws://' + window.location.host +'/stream/');
+  socket.onmessage = function(e) {
+    document.body.innerHTML = `<h1>${e.data}</h1>`
+  };
+</script>
