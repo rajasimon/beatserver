@@ -2,3 +2,4 @@ Django
 Channels
 asgi-redis
 beatserver
+daphne
